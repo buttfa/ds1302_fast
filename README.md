@@ -60,6 +60,7 @@ typedef struct rtc_ds1302{
 }rtc_ds1302;
 ```
 #### 结构体ds1302_ops定义了ds1302所需的操作集。其中write_sck、write_dat、write_rst分别控制ds1302的sck、dat、rst引脚的值，read_dat用于读取ds1302上dat引脚的值。<br>The structure ds1302-0ps defines the set of operations required by ds1302. Among them, writer_sck, writer_dat, and writer_rst respectively control the values of the sck, dat, and rst pins on ds1302, while read_dat is used to read the value of the dat pin on ds1302.
+
 #### 结构体rtc_1302定义了ds1302操作集ops和时间变量time，time数组存储的数据依次为年（前两位）、年（后两位）、月、日、时、分、秒和星期。<br>The structure rtc1302 defines the ds1302 operation set ops and the time variable time. The time array stores data in the order of year (first two digits), year (last two digits), month, day, hour, minute, second, and week.
 
 # 重要函数解析 / Analysis of Important Functions
