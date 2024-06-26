@@ -33,6 +33,16 @@ typedef unsigned char u8;
 #define DS1302_CHARGER_ADDR		0x90 					 
 #define DS1302_CLKBURST_ADDR	0xbe
 
+/**
+ * @brief 定义了ds1302的操作集结构体 / Defined the operation set architecture of ds1302
+ * 
+ */
+typedef struct ds1302_ops{
+    void (*write_sck)(u8 value);
+    void (*write_dat)(u8 value);
+    u8 (*read_dat)();
+    void (*write_rst)(u8 value);
+}ds1302_ops;
 
 /**
  * @brief 定义了ds1302时间缓存和操作集结构体 / Defined the DS1302 time cache and operation set architecture
@@ -41,10 +51,7 @@ typedef unsigned char u8;
 typedef struct rtc_ds1302{
     // 年/Year  月/Month  日/Day  时/Hour  分/Minute  秒/Secon  星期/Day of the week
     u8 time[8];
-    void (*write_sck)(u8 value);
-    void (*write_dat)(u8 value);
-    u8 (*read_dat)();
-    void (*write_rst)(u8 value);
+    ds1302_ops* ops;
 }rtc_ds1302;
 
 

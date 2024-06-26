@@ -31,11 +31,15 @@ void write_rst(u8 value) {
     DS1302_RST = value;
 }
 
-rtc_ds1302 rtc= {
+ds1302_ops ops = {
     .write_sck = write_sck,
     .write_dat = write_dat,
     .read_dat = read_dat,
     .write_rst = write_rst
+};
+
+rtc_ds1302 rtc= {
+    .ops = &ops
 };
 
 void main()

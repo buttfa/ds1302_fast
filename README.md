@@ -27,16 +27,22 @@ void _write_rst(u8 value) {
      */
 }
 ```
-#### 2.定义rtc_ds1302变量 / Define the rtc_ds1302 variable
+#### 2.定义ds1302_ops变量 / Define the ds1302_ops variable
 ```c
-rtc_ds1302 rtc= {
+ds1302_ops ops= {
     .write_sck = _write_sck,
     .write_dat = _write_dat,
     .read_dat = _read_dat,
     .write_rst = _write_rst
 };
 ```
-#### 3.使用rtc_write_time()和rtc_read_time()即可 / You can use rtc_write_time() and rtc_read_time() to complete the process
+#### 3.定义rtc_ds1302变量 / Define the rtc_ds1302 variable
+```c
+rtc_ds1302 rtc= {
+    .ops = ops
+};
+```
+#### 4.使用rtc_write_time()和rtc_read_time()即可 / You can use rtc_write_time() and rtc_read_time() to complete the process
 
 # 结构体解析 / Structural Analysis
 ```c

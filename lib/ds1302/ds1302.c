@@ -17,8 +17,8 @@
  * @param rtc ds1302操作集结构体 / Ds1302 operation set architecture
  */
 void rtc_init(rtc_ds1302* rtc) {
-    rtc->write_sck(LOW);
-    rtc->write_rst(LOW);
+    rtc->ops->write_sck(LOW);
+    rtc->ops->write_rst(LOW);
 }
 
 
@@ -30,32 +30,32 @@ void rtc_init(rtc_ds1302* rtc) {
  * @param dat 需要写入的数据 / Data to be written
  */
 void ds1302_write_byte(rtc_ds1302* rtc, u8 addr, u8 dat) {
-    rtc->write_rst(HIGH);
+    rtc->ops->write_rst(HIGH);
     addr = addr & 0xFE;
     
     for (u8 i = 0; i < 8; i++) {
         if (addr & 0x01) {
-            rtc->write_dat(HIGH);
+            rtc->ops->write_dat(HIGH);
         } else {
-            rtc->write_dat(LOW);
+            rtc->ops->write_dat(LOW);
         }
-        rtc->write_sck(HIGH);
-        rtc->write_sck(LOW);
+        rtc->ops->write_sck(HIGH);
+        rtc->ops->write_sck(LOW);
         addr >>= 1;
     }
 
     
     for (u8 i = 0; i < 8; i++) {
         if (dat & 0x01) {
-            rtc->write_dat(HIGH);
+            rtc->ops->write_dat(HIGH);
         } else {
-            rtc->write_dat(LOW);
+            rtc->ops->write_dat(LOW);
         }
-        rtc->write_sck(HIGH);
-        rtc->write_sck(LOW);
+        rtc->ops->write_sck(HIGH);
+        rtc->ops->write_sck(LOW);
         dat >>= 1;
     }
-    rtc->write_rst(LOW);
+    rtc->ops->write_rst(LOW);
 }
 
 
@@ -68,28 +68,28 @@ void ds1302_write_byte(rtc_ds1302* rtc, u8 addr, u8 dat) {
  */
 u8 ds1302_read_byte(rtc_ds1302* rtc, u8 addr) {
     u8 temp = 0x00;
-    rtc->write_rst(HIGH);
+    rtc->ops->write_rst(HIGH);
     addr = addr | 0x01;
     for (u8 i = 0; i < 8; i++) {
         if (addr & 0x01) {
-            rtc->write_dat(HIGH);
+            rtc->ops->write_dat(HIGH);
         } else {
-            rtc->write_dat(LOW);
+            rtc->ops->write_dat(LOW);
         }
-        rtc->write_sck(HIGH);
-        rtc->write_sck(LOW);
+        rtc->ops->write_sck(HIGH);
+        rtc->ops->write_sck(LOW);
         addr >>= 1;
     }
 
     for (u8 i = 0; i < 8; i++) {
         temp = temp >> 1;
-        if (rtc->read_dat() == 1) {
+        if (rtc->ops->read_dat() == 1) {
             temp |= 0x80;
         }
-        rtc->write_sck(HIGH);
-        rtc->write_sck(LOW);
+        rtc->ops->write_sck(HIGH);
+        rtc->ops->write_sck(LOW);
     }
-    rtc->write_rst(LOW);
+    rtc->ops->write_rst(LOW);
     return temp;
 }
 

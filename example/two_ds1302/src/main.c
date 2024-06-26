@@ -1,14 +1,13 @@
-/*************************************
+/**
+ * @file main.c
+ * @author  buttfa (1662332017@qq.com)
+ * @brief 使用两个ds1302校正时间 / Use two DS1302 calibration times
+ * @version 0.1
+ * @date 2024-06-26
  * 
- *        89c52 sdcc blink demo
+ * @copyright Copyright (c) 2024
  * 
- * CPU: 89C52
- * FREQ: 12MHz
- * PIN: P00
- * 
- * ***********************************
-*/
-
+ */
 #include <reg52.h>
 #include <stdio.h>
 #include <ds1302.h>
@@ -31,12 +30,15 @@ u8 read_dat_1(){
 void write_rst_1(u8 value) {
     DS1302_RST_1 = value;
 }
-
-rtc_ds1302 rtc_1= {
+ds1302_ops ops_1 = {
     .write_sck = write_sck_1,
     .write_dat = write_dat_1,
     .read_dat = read_dat_1,
     .write_rst = write_rst_1
+};
+
+rtc_ds1302 rtc_1= {
+    .ops = &ops_1
 };
 /************************************************/
 #define DS1302_SCK_2 P20
@@ -55,13 +57,16 @@ void write_rst_2(u8 value) {
     DS1302_RST_2 = value;
 }
 
-rtc_ds1302 rtc_2= {
+ds1302_ops ops_2 = {
     .write_sck = write_sck_2,
     .write_dat = write_dat_2,
     .read_dat = read_dat_2,
     .write_rst = write_rst_2
 };
 
+rtc_ds1302 rtc_2= {
+    .ops = &ops_2
+};
 void main()
 {
     rtc_init(&rtc_1);
