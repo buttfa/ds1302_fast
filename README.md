@@ -39,7 +39,7 @@ ds1302_ops ops= {
 #### 3.定义rtc_ds1302变量 / Define the rtc_ds1302 variable
 ```c
 rtc_ds1302 rtc= {
-    .ops = ops
+    .ops = &ops
 };
 ```
 #### 4.使用rtc_write_time()和rtc_read_time()即可 / You can use rtc_write_time() and rtc_read_time() to complete the process
